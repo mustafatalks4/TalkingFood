@@ -1,9 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y31SNM05CQ"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-Y31SNM05CQ');
+    </script>
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Med-CGI Prompt Master Pro</title>
+    <title>Med-CGI Prompt Master Pro v2.9.3 (Stable)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
     <style>
@@ -12,6 +21,8 @@
             background: radial-gradient(circle at top right, #1a1a1a, #070707);
             color: #f3f4f6;
             min-height: 100vh;
+            margin: 0;
+            overflow-x: hidden;
         }
         .glass-card {
             background: rgba(255, 255, 255, 0.03);
@@ -29,32 +40,56 @@
             outline: none;
             box-shadow: 0 0 15px rgba(239, 68, 68, 0.2);
         }
-        .custom-scrollbar::-webkit-scrollbar { width: 5px; }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #ef4444; }
+        
+        .suggestion-tag {
+            font-size: 10px;
+            padding: 5px 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+        .suggestion-tag:hover {
+            background: rgba(239, 68, 68, 0.2);
+            border-color: #ef4444;
+            color: #fff;
+        }
+
+        .prompt-container {
+            word-break: break-word;
+            overflow-wrap: anywhere;
+        }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .animate-fade-in { animation: fadeIn 0.4s ease-out forwards; }
         
         .result-card {
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            max-width: 100%;
         }
         .result-card:hover {
-            box-shadow: 0 10px 30px -10px rgba(239, 68, 68, 0.3);
+            box-shadow: 0 20px 40px -15px rgba(239, 68, 68, 0.2);
         }
+
+        .min-w-0-fix { min-width: 0; }
     </style>
 </head>
 <body class="p-0 flex flex-col lg:flex-row min-h-screen">
 
     <!-- SIDEBAR: CONFIGURATION (LEFT) -->
-    <aside class="w-full lg:w-[400px] shrink-0 glass-card lg:m-4 flex flex-col border-r border-white/5 h-fit lg:h-[calc(100vh-2rem)] sticky top-0 z-40">
-        <div class="p-6 border-b border-white/10 flex justify-between items-center">
-            <h1 class="text-2xl font-bold text-white flex items-center gap-2 tracking-tighter uppercase italic">
+    <aside class="w-full lg:w-[420px] shrink-0 glass-card lg:m-4 flex flex-col border-r border-white/5 h-auto lg:h-[calc(100vh-2rem)] lg:sticky top-0 lg:top-4 z-40 overflow-hidden">
+        <div class="p-6 border-b border-white/10 flex justify-between items-center bg-black/20 shrink-0">
+            <h1 class="text-2xl font-black text-white flex items-center gap-2 tracking-tighter uppercase italic">
                 <span class="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center text-sm not-italic shadow-lg shadow-red-900/40">M</span>
                 Med-CGI <span class="text-red-500 font-light">PRO</span>
             </h1>
-            <div class="text-[10px] bg-red-500/10 text-red-500 px-2 py-1 rounded border border-red-500/20 font-bold uppercase tracking-widest">v2.7</div>
+            <div class="text-[10px] bg-red-500/10 text-red-500 px-2 py-1 rounded border border-red-500/20 font-bold uppercase tracking-widest">v2.9.3</div>
         </div>
 
         <div class="p-6 flex-1 overflow-y-auto custom-scrollbar space-y-6">
@@ -62,7 +97,7 @@
             <div class="space-y-2">
                 <div class="flex justify-between items-center">
                     <label class="text-[10px] uppercase tracking-widest text-gray-500 font-bold">Google Studio API Key</label>
-                    <button onclick="clearKey()" class="text-[10px] text-red-500 hover:text-red-400 font-bold transition">CLEAR KEY</button>
+                    <button onclick="clearKey()" class="text-[10px] text-red-500 hover:text-red-400 font-bold transition uppercase">Clear Buffer</button>
                 </div>
                 <input type="password" id="apiKey" placeholder="Paste API Key here..." 
                        class="premium-input w-full rounded-xl px-4 py-3 text-sm" />
@@ -70,11 +105,11 @@
 
             <!-- Core Config -->
             <div class="space-y-4">
-                <label class="text-[10px] uppercase tracking-widest text-gray-500 font-bold">Character Settings</label>
+                <label class="text-[10px] uppercase tracking-widest text-gray-500 font-bold">Hero Configuration</label>
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-4">
+                <div class="space-y-4">
                     <div>
-                        <span class="text-xs text-gray-400 mb-1 block italic text-xs">Main Category</span>
+                        <span class="text-xs text-gray-400 mb-1 block italic">Main Category</span>
                         <select id="category" class="premium-input w-full rounded-xl px-4 py-3 text-sm appearance-none cursor-pointer">
                             <option value="Medical Foods & Fruits">Medical Foods & Fruits</option>
                             <option value="Organic Vegetables">Organic Vegetables</option>
@@ -89,26 +124,33 @@
                     </div>
 
                     <div>
-                        <span class="text-xs text-gray-400 mb-1 block italic text-xs">Pocket Logo Text</span>
-                        <input type="text" id="channelName" placeholder="e.g. Health Lab" 
+                        <span class="text-xs text-gray-400 mb-1 block italic">Pocket Logo Text (Optional)</span>
+                        <input type="text" id="channelName" placeholder="Text for embroidery" 
                                class="premium-input w-full rounded-xl px-4 py-3 text-sm" />
                     </div>
                 </div>
 
                 <div>
-                    <span class="text-xs text-gray-400 mb-1 block italic text-xs">Outfit Style</span>
-                    <textarea id="clothing" rows="2" placeholder="e.g. Professional lab coat, golden stethoscope, expressive realistic eyes..." 
+                    <span class="text-xs text-gray-400 mb-2 block italic">Outfit Style Suggestions:</span>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="suggestion-tag" onclick="setOutfit('Professional White Lab Coat with stethoscope and large expressive eyes')">Lab Coat</span>
+                        <span class="suggestion-tag" onclick="setOutfit('High-tech glowing Nano-Armor and tactical doctor glasses')">Nano-Armor</span>
+                        <span class="suggestion-tag" onclick="setOutfit('Surgical Scrubs with matching medical badge')">Scrubs</span>
+                        <span class="suggestion-tag" onclick="setOutfit('Natural Organic skin texture (No Clothes)')">No Clothes</span>
+                        <span class="suggestion-tag" onclick="setOutfit('Sleek futuristic 3D CGI medical uniform')">Future Tech</span>
+                    </div>
+                    <textarea id="clothing" rows="2" placeholder="Describe the character look..." 
                               class="premium-input w-full rounded-xl px-4 py-3 text-sm resize-none"></textarea>
                 </div>
 
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <span class="text-xs text-gray-400 mb-1 block italic text-xs">Quantity</span>
+                        <span class="text-xs text-gray-400 mb-1 block italic">Quantity</span>
                         <input type="number" id="quantity" value="5" min="1" max="10" 
                                class="premium-input w-full rounded-xl px-4 py-3 text-sm" />
                     </div>
                     <div>
-                        <span class="text-xs text-gray-400 mb-1 block italic text-xs">Language</span>
+                        <span class="text-xs text-gray-400 mb-1 block italic">Language</span>
                         <select id="language" class="premium-input w-full rounded-xl px-4 py-3 text-sm appearance-none cursor-pointer">
                             <option value="English">English</option>
                             <option value="Urdu">Urdu (اردو)</option>
@@ -122,66 +164,59 @@
                             <option value="Russian">Russian</option>
                             <option value="Japanese">Japanese</option>
                             <option value="Chinese">Chinese</option>
-                            <option value="Turkish">Turkish</option>
-                            <option value="Italian">Italian</option>
-                            <option value="Korean">Korean</option>
                             <option value="Punjabi">Punjabi</option>
-                            <option value="Marathi">Marathi</option>
-                            <option value="Telugu">Telugu</option>
-                            <option value="Tamil">Tamil</option>
                             <option value="Vietnamese">Vietnamese</option>
-                            <option value="Persian">Persian</option>
                         </select>
                     </div>
                 </div>
             </div>
 
-            <!-- Input Mode -->
+            <!-- Selection Engine -->
             <div class="space-y-4">
-                <label class="text-[10px] uppercase tracking-widest text-gray-500 font-bold">Selection Logic</label>
+                <label class="text-[10px] uppercase tracking-widest text-gray-500 font-bold">Selection Engine</label>
                 <div class="flex bg-black/40 p-1 rounded-xl">
                     <button onclick="setMode('ai')" id="btn-ai" class="flex-1 py-2 text-xs rounded-lg transition bg-red-600 text-white font-bold">AI Random</button>
-                    <button onclick="setMode('manual')" id="btn-manual" class="flex-1 py-2 text-xs rounded-lg transition text-gray-400">Manual</button>
+                    <button onclick="setMode('manual')" id="btn-manual" class="flex-1 py-2 text-xs rounded-lg transition text-gray-400">Manual Entry</button>
                 </div>
-                <div id="manual-box" class="hidden">
-                    <textarea id="manualItems" rows="2" placeholder="Blueberry, Avocado, Spinach..." 
-                              class="premium-input w-full rounded-xl px-4 py-3 text-sm mt-2 resize-none"></textarea>
+                <div id="manual-box" class="hidden mt-2">
+                    <textarea id="manualItems" rows="2" placeholder="e.g. Apple, Yogurt, Olive Oil..." 
+                              class="premium-input w-full rounded-xl px-4 py-3 text-sm resize-none"></textarea>
                 </div>
             </div>
         </div>
 
-        <div class="p-6 bg-black/20 border-t border-white/5">
+        <div class="p-6 bg-black/40 border-t border-white/5 shrink-0">
             <button onclick="initiateGeneration()" id="mainActionBtn" 
                     class="w-full bg-red-600 hover:bg-red-500 text-white font-black py-4 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 group tracking-widest">
-                <span>GENERATE CAMPAIGN</span>
+                <span>GENERATE TRACKS</span>
                 <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
             </button>
         </div>
     </aside>
 
     <!-- MAIN PANEL: CONTENT (RIGHT) -->
-    <main class="flex-1 flex flex-col p-4 lg:p-8 overflow-y-auto custom-scrollbar">
+    <main class="flex-1 flex flex-col p-4 lg:p-8 min-w-0 overflow-y-auto custom-scrollbar">
         
-        <!-- Welcome / Idle State -->
+        <!-- Welcome State -->
         <div id="welcomeState" class="flex-1 flex flex-col items-center justify-center text-center p-12 opacity-30">
-            <div class="w-24 h-24 mb-6 border-4 border-dashed border-red-500/20 rounded-full flex items-center justify-center">
-                <svg class="w-10 h-10 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.628.283a2 2 0 01-1.186.12l-2.433-.487a2 2 0 00-1.022.547l-2.14 2.14a2 2 0 01-1.414.586H2.36a2 2 0 01-1.414-3.414l2.14-2.14a2 2 0 00.547-1.022l.477-2.387a6 6 0 01.517-3.86l.283-.628a2 2 0 00.12-1.186L5.435 3.9a2 2 0 01.547-1.022l2.14-2.14a2 2 0 013.414 1.414l-2.14 2.14a2 2 0 00-.547 1.022l-.477 2.387a6 6 0 01-.517 3.86l-.283.628a2 2 0 00-.12-1.186l.487 2.433a2 2 0 01-.547 1.022l-2.14 2.14a2 2 0 01-3.414-1.414l2.14-2.14z"></path></svg>
+            <div class="w-20 h-20 md:w-24 md:h-24 mb-6 border-4 border-dashed border-red-500/20 rounded-full flex items-center justify-center">
+                <svg class="w-10 h-10 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.628.283a2 2 0 01-1.186.12l-2.433-.487a2 2 0 00-1.022.547l-2.14 2.14a2 2 0 01-1.414.586H2.36a2 2 0 01-1.414-3.414l2.14-2.14a2 2 0 00.547-1.022l.477-2.387a6 6 0 01.517-3.86l.283-.628a2 2 0 00.12-1.186L5.435 3.9a2 2 0 01.547-1.022l2.14-2.14a2 2 0 013.414 1.414l-2.14 2.14a2 2 0 00-.547 1.022l-.477 2.387a6 6 0 01-.517 3.86l-.283.628a2 2 0 00-.12-1.186L5.435 3.9a2 2 0 01.547-1.022l2.14-2.14a2 2 0 013.414 1.414l-2.14 2.14a2 2 0 00-.547 1.022l-.477 2.387a6 6 0 01-.517 3.86l-.283.628a2 2 0 00-.12-1.186L5.435 3.9a2 2 0 01.547-1.022l2.14-2.14a2 2 0 01-3.414-1.414l2.14-2.14z"></path></svg>
             </div>
-            <h2 class="text-2xl font-black text-white italic tracking-tighter uppercase">Internal Protocol Ready</h2>
-            <p class="text-sm text-gray-500 max-w-sm mt-2">Generate cinematic, medical characters inside the human body with precision dialogue.</p>
+            <h2 class="text-xl md:text-2xl font-black text-white italic tracking-tighter uppercase leading-tight">Internal Protocol Ready</h2>
+            <p class="text-sm text-gray-500 max-w-sm mt-2">Generate cinematic internal medical characters. Optimized for all devices.</p>
         </div>
 
         <!-- Confirmation Modal -->
-        <div id="confirmModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/90 backdrop-blur-md">
-            <div class="glass-card max-w-md w-full p-8 space-y-6 animate-fade-in border-red-500/30">
+        <div id="confirmModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-6 bg-black/90 backdrop-blur-md">
+            <div class="glass-card max-w-md w-full p-6 md:p-8 space-y-6 animate-fade-in border-red-500/30">
                 <h3 class="text-xl font-black text-white italic uppercase flex items-center gap-2">
                     <svg class="w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    Confirm Protocol
+                    Confirm Generation
                 </h3>
-                <div id="summaryContent" class="space-y-3 text-xs text-gray-300 bg-white/5 p-5 rounded-2xl border border-white/5">
+                <div id="summaryContent" class="space-y-3 text-xs text-gray-300 bg-white/5 p-4 md:p-5 rounded-2xl border border-white/5">
                     <!-- Summary injected here -->
                 </div>
-                <div class="flex gap-4 pt-4">
+                <div class="flex flex-col sm:flex-row gap-3 pt-4">
                     <button onclick="hideConfirm()" class="flex-1 py-3 px-4 rounded-xl bg-white/5 hover:bg-white/10 transition text-xs font-bold uppercase tracking-widest">Cancel</button>
                     <button onclick="processFinalGeneration()" class="flex-1 py-3 px-4 rounded-xl bg-red-600 hover:bg-red-500 font-black text-xs text-white uppercase tracking-widest shadow-lg shadow-red-900/40">Accept & Build</button>
                 </div>
@@ -189,15 +224,15 @@
         </div>
 
         <!-- Results View -->
-        <div id="resultsView" class="hidden space-y-8 pb-12">
+        <div id="resultsView" class="hidden space-y-12 pb-24">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border-b border-white/10 pb-8">
-                <div>
-                    <h2 class="text-3xl font-black text-white italic uppercase tracking-tighter leading-none">Medical Heroes</h2>
-                    <p class="text-xs text-red-500 font-mono tracking-widest mt-1">INTERNAL RENDER ENGINE v2.7</p>
+                <div class="min-w-0">
+                    <h2 class="text-3xl md:text-4xl font-black text-white italic uppercase tracking-tighter leading-none truncate">Medical Heroes</h2>
+                    <p class="text-[10px] text-red-500 font-mono tracking-widest mt-2 uppercase opacity-80">Track Engine v2.9.3 stable</p>
                 </div>
-                <div class="flex gap-3">
-                    <a href="https://whatsapp.com/channel/0029VbC81adK5cDJZippSk10" target="_blank" class="px-5 py-2.5 bg-green-600/20 text-green-400 text-[10px] font-black rounded-full border border-green-500/20 hover:bg-green-600/30 transition tracking-widest">WHATSAPP</a>
-                    <a href="https://facebook.com/themustafatalks" target="_blank" class="px-5 py-2.5 bg-blue-600/20 text-blue-400 text-[10px] font-black rounded-full border border-blue-500/20 hover:bg-blue-600/30 transition tracking-widest">FACEBOOK</a>
+                <div class="flex flex-wrap gap-3 shrink-0">
+                    <a href="https://whatsapp.com/channel/0029VbC81adK5cDJZippSk10" target="_blank" class="px-4 py-2.5 bg-green-600/20 text-green-400 text-[10px] font-black rounded-full border border-green-500/20 hover:bg-green-600/30 transition tracking-widest">WHATSAPP</a>
+                    <a href="https://facebook.com/themustafatalks" target="_blank" class="px-4 py-2.5 bg-blue-600/20 text-blue-400 text-[10px] font-black rounded-full border border-blue-500/20 hover:bg-blue-600/30 transition tracking-widest">FACEBOOK</a>
                 </div>
             </div>
             
@@ -208,13 +243,12 @@
     </main>
 
     <!-- Toast Notifications -->
-    <div id="toast" class="fixed bottom-8 right-8 bg-red-600 text-white px-8 py-4 rounded-2xl shadow-2xl transform translate-y-32 transition-transform duration-300 z-[200] font-black italic uppercase text-xs tracking-widest">
+    <div id="toast" class="fixed bottom-8 right-1/2 translate-x-1/2 md:translate-x-0 md:right-8 bg-red-600 text-white px-8 py-4 rounded-2xl shadow-2xl transform translate-y-48 transition-transform duration-300 z-[200] font-black italic uppercase text-xs tracking-widest text-center">
         Message
     </div>
 
     <script>
         let currentMode = 'ai';
-        let globalItems = []; 
         const apiKeyLocalKey = 'med_pro_api_key_v2';
 
         window.onload = () => {
@@ -222,24 +256,28 @@
             if(savedKey) document.getElementById('apiKey').value = savedKey;
         };
 
+        function setOutfit(text) {
+            document.getElementById('clothing').value = text;
+        }
+
         function setMode(mode) {
             currentMode = mode;
             document.getElementById('btn-ai').className = mode === 'ai' ? 'flex-1 py-2 text-xs rounded-lg transition bg-red-600 text-white font-bold' : 'flex-1 py-2 text-xs rounded-lg transition text-gray-400';
-            document.getElementById('btn-manual').className = mode === 'manual' ? 'flex-1 py-2 text-xs rounded-lg transition bg-red-600 text-white font-bold' : 'flex-1 py-2 text-xs rounded-lg transition text-gray-400';
+            document.getElementById('btn-manual').className = mode === 'manual' ? 'flex-1 py-2 text-xs rounded-lg transition text-gray-400' : 'flex-1 py-2 text-xs rounded-lg transition text-gray-400';
             document.getElementById('manual-box').classList.toggle('hidden', mode === 'ai');
         }
 
         function clearKey() {
             document.getElementById('apiKey').value = '';
             localStorage.removeItem(apiKeyLocalKey);
-            showToast("API Key Cleared");
+            showToast("API Buffer Cleared");
         }
 
         function showToast(msg) {
             const t = document.getElementById('toast');
             t.innerText = msg;
-            t.classList.remove('translate-y-32');
-            setTimeout(() => t.classList.add('translate-y-32'), 3000);
+            t.classList.remove('translate-y-48');
+            setTimeout(() => t.classList.add('translate-y-48'), 3000);
         }
 
         function initiateGeneration() {
@@ -248,15 +286,15 @@
             localStorage.setItem(apiKeyLocalKey, key);
 
             const cat = document.getElementById('category').value;
-            const chan = document.getElementById('channelName').value || "Health Hub";
-            const cloth = document.getElementById('clothing').value || "Professional White Lab Coat with large expressive eyes";
-            const lang = document.getElementById('language').value;
+            const chan = document.getElementById('channelName').value.trim();
             const count = document.getElementById('quantity').value;
+            const lang = document.getElementById('language').value;
 
             document.getElementById('summaryContent').innerHTML = `
-                <div class="flex justify-between py-2 border-b border-white/5"><span class="opacity-50 font-bold uppercase tracking-widest">Items:</span> <span class="font-bold">${count} Heroes</span></div>
-                <div class="flex justify-between py-2 border-b border-white/5"><span class="opacity-50 font-bold uppercase tracking-widest">Branding:</span> <span class="font-bold">${chan}</span></div>
-                <div class="flex justify-between py-2"><span class="opacity-50 font-bold uppercase tracking-widest">Language:</span> <span class="font-bold text-red-400">${lang}</span></div>
+                <div class="flex justify-between py-2 border-b border-white/5"><span class="opacity-50 font-bold uppercase tracking-widest">Quantity:</span> <span class="font-bold">${count} Tracks</span></div>
+                <div class="flex justify-between py-2 border-b border-white/5"><span class="opacity-50 font-bold uppercase tracking-widest">Logo:</span> <span class="font-bold text-red-400">${chan || 'None (No Logo)'}</span></div>
+                <div class="flex justify-between py-2"><span class="opacity-50 font-bold uppercase tracking-widest">Lang:</span> <span class="font-bold">${lang}</span></div>
+                <div class="mt-2 text-[10px] text-gray-400 font-bold uppercase">Source: ${currentMode === 'manual' ? 'Strict Manual Data' : 'AI Viral Engine'}</div>
             `;
             document.getElementById('confirmModal').classList.remove('hidden');
         }
@@ -270,91 +308,82 @@
             document.getElementById('welcomeState').classList.add('hidden');
             document.getElementById('resultsView').classList.remove('hidden');
             document.getElementById('cardsGrid').innerHTML = `
-                <div class="h-96 flex flex-col items-center justify-center space-y-4">
-                    <div class="w-12 h-12 border-4 border-red-500 border-t-transparent rounded-full animate-spin shadow-lg"></div>
-                    <p class="text-xs text-red-500 animate-pulse font-mono uppercase tracking-widest">Building Internal Protocol...</p>
+                <div class="h-96 flex flex-col items-center justify-center space-y-6 text-center">
+                    <div class="w-16 h-16 border-4 border-red-500 border-t-transparent rounded-full animate-spin shadow-xl"></div>
+                    <p class="text-xs text-red-500 animate-pulse font-mono uppercase tracking-[0.3em] font-black">Synthesizing Protocol Tracks...</p>
                 </div>
             `;
 
             const cat = document.getElementById('category').value;
-            const chan = document.getElementById('channelName').value || "Health Hub";
-            const clothInput = document.getElementById('clothing').value || "Professional White Lab Coat with stethoscope and large expressive eyes";
+            const chan = document.getElementById('channelName').value.trim();
+            const clothInput = document.getElementById('clothing').value || "Professional White Lab Coat with large expressive eyes";
             const lang = document.getElementById('language').value;
             const count = document.getElementById('quantity').value;
-            const manualData = document.getElementById('manualItems').value;
-
-            // Health-related categories get "Inside Body" logic
-            const healthCats = ["Medical Foods & Fruits", "Organic Vegetables", "Nutrient Seeds & Nuts", "Essential Oils & Fluids", "Health Drinks"];
-            const isHealthCat = healthCats.includes(cat);
+            const manualData = document.getElementById('manualItems').value.trim();
 
             const systemPrompt = `
-                ACT AS A PREMIUM MEDICAL 3D CGI SYSTEM. 
-                GENERATE EXACTLY ${count} CHARACTERS FROM: ${cat}.
-                CHARACTERS MUST BE ANTHROPOMORPHIC HEROES.
-                CLOTHING: ${clothInput}.
-                BRANDING: Embroider "${chan}" precisely on the breast pocket.
+                You are a PREMIUM MEDICAL 3D IMAGE + VIDEO PROMPT GENERATION SYSTEM.
                 
-                ${isHealthCat ? 'ENVIRONMENT: MUST BE INSIDE a vibrant, high-fidelity red human organ or vessel (brain tissue, blood stream, stomach lining). Clean, safe, medical look.' : 'ENVIRONMENT: Professional studio setting.'}
+                GLOBAL HARD RULES (NEVER BREAK):
+                - Generate EXACTLY ${count} items.
+                - Items source: ${currentMode === 'manual' ? `STRICTLY USE THESE ITEMS: ${manualData}` : `Choose diverse items from category: ${cat}`}.
+                - Scene must ALWAYS be INSIDE the human body (vibrant medical red, clean, safe).
+                - Style: PREMIUM Pixar-style medical 3D CGI.
+                - Aspect ratio: 9:16 vertical.
+                - Dialogue must NEVER be missing.
                 
-                LANGUAGE: ${lang}.
-                STRICT VIDEO RULES (8.0s):
-                - 0.0s - 2.0s: Hero character appears/floats near the target area, preparing medical treatment.
-                - 2.0s - 8.0s: Hero performs a clear visible medical action (releasing antioxidants, dissolving plaque, balancing signals).
-                - DIALOGUE (IN ${lang}): "Hello, I am [NAME OF ITEM]. I [ACTION] the [PROBLEM] in your [ORGAN]."
+                DURATION & TIMING LOCK:
+                - Each video = EXACTLY 8 seconds.
+                - First 2 seconds: character appears or prepares.
+                - Next 6 seconds: clear visible medical action.
                 
-                Rules:
-                - Introduction MUST be "Hello, I am [ITEM NAME]" (e.g., "Hello, I am Avocado").
-                - No "I am a doctor" phrases.
+                DIALOGUE STRUCTURE (MANDATORY):
+                - Format: "Hello, I am [ITEM]. I [MEDICAL ACTION] the [PROBLEM] in your [ORGAN]."
+                - (Translated to: ${lang})
+                - Do NOT repeat the same action word again and again.
+                - Avoid overusing "clean". Use verbs like: loosen, soften, dissolve, buffer, coat, stabilize, relax, hydrate, reinforce, balance.
                 
-                RETURN JSON { items: [{ name, organ, problem, action, dialogue, imagePrompt, videoPrompt }] }
+                IMAGE PROMPT STRUCTURE:
+                - Premium Pixar-style medical 3D CGI inside a vibrant red human [ORGAN / VESSEL].
+                - Anthropomorphic [ITEM] as a friendly doctor character.
+                - ${chan ? `Wearing a white medical coat with logo text "${chan}" on the breast pocket.` : `Wearing a white medical coat (No logo/text).`}
+                - ${clothInput}
+                - Optional glasses or stethoscope.
+                - Large expressive realistic eyes.
+                - High contrast lighting with soft internal glow.
+                - Clean organic vessel walls.
+                - Ultra-detailed, cinematic, sharp focus.
+                - Vertical 9:16.
+                
+                VIDEO PROMPT STRUCTURE:
+                - Animate the image into an 8-second medical 3D video.
+                - Character performs the selected medical action clearly.
+                - Action must visually match the dialogue.
+                - Dialogue must be spoken clearly.
+                - No background music.
+                - Only subtle internal medical ambience.
+                - Include the dialogue line explicitly in the video prompt.
+
+                RETURN JSON format with keys: items [ { name, organ, problem, action, dialogue, imagePrompt, videoPrompt } ]
             `;
 
             try {
-                const data = await callGemini(systemPrompt);
-                globalItems = data.items; 
-                renderItems(globalItems);
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${document.getElementById('apiKey').value}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: systemPrompt }] }],
+                        generationConfig: { responseMimeType: "application/json" }
+                    })
+                });
+                const res = await response.json();
+                const data = JSON.parse(res.candidates[0].content.parts[0].text);
+                renderItems(data.items);
             } catch (err) {
-                showToast("System Error");
+                showToast("Generation Failure");
                 document.getElementById('welcomeState').classList.remove('hidden');
+                document.getElementById('resultsView').classList.add('hidden');
             }
-        }
-
-        async function callGemini(prompt) {
-            const key = document.getElementById('apiKey').value;
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${key}`;
-            
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    contents: [{ parts: [{ text: prompt }] }],
-                    generationConfig: {
-                        responseMimeType: "application/json",
-                        responseSchema: {
-                            type: "OBJECT",
-                            properties: {
-                                items: {
-                                    type: "ARRAY",
-                                    items: {
-                                        type: "OBJECT",
-                                        properties: {
-                                            name: { type: "STRING" },
-                                            organ: { type: "STRING" },
-                                            problem: { type: "STRING" },
-                                            action: { type: "STRING" },
-                                            dialogue: { type: "STRING" },
-                                            imagePrompt: { type: "STRING" },
-                                            videoPrompt: { type: "STRING" }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                })
-            });
-            const res = await response.json();
-            return JSON.parse(res.candidates[0].content.parts[0].text);
         }
 
         function renderItems(items) {
@@ -363,112 +392,73 @@
             
             items.forEach((item, idx) => {
                 const card = document.createElement('div');
-                card.className = 'result-card glass-card p-6 lg:p-10 flex flex-col lg:flex-row gap-10 items-start animate-fade-in border-white/5';
+                card.className = 'result-card glass-card p-4 md:p-8 lg:p-10 flex flex-col lg:flex-row gap-8 lg:gap-10 items-start animate-fade-in border-white/5 min-w-0-fix';
                 card.innerHTML = `
                     <div class="w-full lg:w-72 shrink-0 space-y-4">
-                        <div id="img-cont-${idx}" class="w-full aspect-[9/16] bg-black/50 rounded-3xl flex flex-col items-center justify-center border border-white/10 overflow-hidden relative shadow-2xl">
-                            <div class="text-center p-6 space-y-3">
-                                <svg class="w-10 h-10 mx-auto text-red-900/40" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                                <button onclick="renderImage(${idx})" class="text-[10px] bg-red-600 px-6 py-3 rounded-full font-black text-white hover:bg-red-500 transition shadow-lg tracking-widest uppercase">Render 3D</button>
+                        <div class="w-full aspect-[9/16] bg-black/50 rounded-3xl flex flex-col items-center justify-center border border-white/10 overflow-hidden relative shadow-2xl p-6 text-center">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent pointer-events-none"></div>
+                            <div class="relative z-10">
+                                <svg class="w-12 h-12 mx-auto text-red-900/50 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                                <p class="text-[10px] font-black uppercase tracking-[0.2em] text-red-500 mb-1">Visual ID</p>
+                                <h4 class="text-white text-lg font-black italic tracking-tighter uppercase break-words">${item.name}</h4>
                             </div>
                         </div>
-                        <div id="controls-${idx}" class="hidden grid grid-cols-2 gap-3">
-                            <button onclick="renderImage(${idx})" class="py-3 bg-white/5 hover:bg-white/10 text-[9px] rounded-xl border border-white/5 uppercase font-black text-gray-500">Regen</button>
-                            <button onclick="downloadImage(${idx})" class="py-3 bg-red-600 hover:bg-red-500 text-[9px] rounded-xl uppercase font-black text-white shadow-lg">Save</button>
-                        </div>
+                        <a href="https://labs.google/fx/tools/flow/project" target="_blank" class="block w-full py-4 bg-red-600 hover:bg-red-500 text-[11px] font-black uppercase text-center rounded-2xl transition tracking-widest shadow-lg shadow-red-900/40 text-white transform active:scale-95">
+                            GENERATE IN GOOGLE LABS
+                        </a>
                     </div>
 
-                    <div class="flex-1 w-full space-y-8">
+                    <div class="flex-1 w-full min-w-0-fix space-y-8">
                         <div>
-                            <h3 class="text-4xl font-black text-white italic tracking-tighter uppercase leading-none">${item.name}</h3>
-                            <div class="flex flex-wrap gap-2 mt-3">
-                                <span class="text-[10px] bg-red-600 text-white px-3 py-1 rounded-md uppercase font-black tracking-widest">${item.organ}</span>
-                                <span class="text-[10px] bg-white/5 text-gray-500 px-3 py-1 rounded-md border border-white/10 uppercase font-bold tracking-widest">${item.action}</span>
+                            <h3 class="text-3xl md:text-4xl font-black text-white italic tracking-tighter uppercase leading-none mb-4 break-words">${item.name}</h3>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="text-[10px] bg-red-600 text-white px-3 py-1.5 rounded-lg uppercase font-black tracking-widest">${item.organ}</span>
+                                <span class="text-[10px] bg-white/10 text-gray-300 px-3 py-1.5 rounded-lg border border-white/10 uppercase font-bold tracking-widest">${item.action}</span>
                             </div>
                         </div>
 
-                        <div class="space-y-4">
-                            <div class="space-y-2">
+                        <div class="grid grid-cols-1 gap-6">
+                            <!-- Image Prompt Section -->
+                            <div class="space-y-3">
                                 <div class="flex justify-between items-center">
-                                    <label class="text-[10px] text-gray-600 font-black uppercase tracking-widest italic">Character Visual Prompt</label>
-                                    <button onclick="copySingle('ip-${idx}')" class="text-[10px] text-red-500 hover:underline uppercase font-bold">Copy Image</button>
+                                    <label class="text-[10px] text-gray-600 font-black uppercase tracking-widest italic">CGI Prompt (Copy for Labs)</label>
+                                    <button onclick="copySingle('ip-${idx}')" class="text-[10px] text-red-500 hover:text-red-400 font-bold uppercase transition">Copy Prompt</button>
                                 </div>
-                                <div id="ip-${idx}" class="text-xs bg-black/40 p-6 rounded-3xl border border-white/5 text-gray-400 font-medium">${item.imagePrompt}</div>
+                                <div id="ip-${idx}" class="prompt-container text-[11px] md:text-xs bg-black/40 p-5 md:p-6 rounded-[24px] border border-white/5 text-gray-400 font-medium leading-relaxed">${item.imagePrompt}</div>
                             </div>
 
-                            <div class="space-y-2">
+                            <!-- Video Prompt Section -->
+                            <div class="space-y-3">
                                 <div class="flex justify-between items-center">
-                                    <label class="text-[10px] text-gray-600 font-black uppercase tracking-widest italic">8s Animation Track</label>
-                                    <button onclick="copyFull('vp-full-${idx}')" class="text-[10px] text-red-500 hover:underline uppercase font-bold">Copy Video</button>
+                                    <label class="text-[10px] text-gray-600 font-black uppercase tracking-widest italic">8s Animation Protocol</label>
+                                    <button onclick="copyFull('vp-full-${idx}')" class="text-[10px] text-red-500 hover:text-red-400 font-bold uppercase transition">Copy Full Track</button>
                                 </div>
-                                <div id="vp-full-${idx}" class="bg-black/40 rounded-3xl border border-white/5 overflow-hidden">
-                                    <div class="p-6 text-xs text-gray-400 border-b border-white/5">${item.videoPrompt}</div>
-                                    <div class="p-6 bg-red-900/10 flex gap-5 items-center">
+                                <div id="vp-full-${idx}" class="bg-black/40 rounded-[24px] border border-white/5 overflow-hidden">
+                                    <div class="p-5 md:p-6 text-[11px] md:text-xs text-gray-400 border-b border-white/5 leading-relaxed prompt-container">${item.videoPrompt}</div>
+                                    <div class="p-5 md:p-6 bg-red-900/10 flex flex-col sm:flex-row gap-4 sm:gap-6 items-center">
                                         <div class="shrink-0 w-12 h-12 rounded-full bg-red-600 flex items-center justify-center shadow-lg shadow-red-900/30">
                                             <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M7 4a3 3 0 016 0v4a3 3 0 11-6 0V4zm4 10.93A7.001 7.001 0 0017 8a1 1 0 10-2 0A5 5 0 015 8a1 1 0 00-2 0 7.001 7.001 0 006 6.93V17H6a1 1 0 100 2h8a1 1 0 100-2h-3v-2.07z"></path></svg>
                                         </div>
-                                        <div class="w-full">
-                                            <span class="text-[9px] font-black text-red-500 uppercase tracking-widest">Dialogue Track:</span>
-                                            <p id="dial-${idx}" class="text-xl font-black italic text-white tracking-tighter leading-tight mt-1">"${item.dialogue}"</p>
+                                        <div class="min-w-0 flex-1 text-center sm:text-left">
+                                            <span class="text-[10px] font-black text-red-500 uppercase tracking-widest mb-1 block opacity-80">Master Script</span>
+                                            <p class="text-lg md:text-xl lg:text-2xl font-black italic text-white tracking-tighter leading-tight break-words">"${item.dialogue}"</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         
-                        <div class="pt-8 border-t border-white/5 flex flex-wrap gap-6 items-center">
-                            <span class="text-[10px] text-gray-700 font-black uppercase tracking-widest italic tracking-widest">Follow for Updates:</span>
+                        <div class="pt-8 border-t border-white/5 flex flex-col sm:flex-row gap-6 items-center justify-between">
+                            <span class="text-[10px] text-gray-700 font-black uppercase tracking-widest italic tracking-widest">Protocol Protocol: v2.9.3 stable</span>
                             <div class="flex gap-4">
-                                <a href="https://whatsapp.com/channel/0029VbC81adK5cDJZippSk10" target="_blank" class="text-[11px] text-green-500 hover:text-green-400 font-black transition italic uppercase tracking-widest">WhatsApp</a>
-                                <a href="https://facebook.com/themustafatalks" target="_blank" class="text-[11px] text-blue-500 hover:text-blue-400 font-black transition italic uppercase tracking-widest">Facebook</a>
+                                <a href="https://whatsapp.com/channel/0029VbC81adK5cDJZippSk10" target="_blank" class="text-[11px] text-green-500 hover:text-green-400 font-black transition italic uppercase tracking-widest">Join WhatsApp</a>
+                                <a href="https://facebook.com/themustafatalks" target="_blank" class="text-[11px] text-blue-500 hover:text-blue-400 font-black transition italic uppercase tracking-widest">Follow FB</a>
                             </div>
                         </div>
                     </div>
                 `;
                 grid.appendChild(card);
             });
-        }
-
-        async function renderImage(idx) {
-            const item = globalItems[idx];
-            const cont = document.getElementById(`img-cont-${idx}`);
-            const controls = document.getElementById(`controls-${idx}`);
-            const key = document.getElementById('apiKey').value;
-            
-            cont.innerHTML = `
-                <div class="flex flex-col items-center gap-4">
-                    <div class="w-10 h-10 border-2 border-red-500 border-t-transparent rounded-full animate-spin"></div>
-                    <span class="text-[9px] text-red-500 font-black uppercase animate-pulse">Rendering...</span>
-                </div>
-            `;
-
-            try {
-                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/imagen-4.0-generate-001:predict?key=${key}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        instances: [{ prompt: item.imagePrompt }],
-                        parameters: { sampleCount: 1, aspectRatio: "9:16" }
-                    })
-                });
-                const result = await response.json();
-                const b64 = result.predictions[0].bytesBase64Encoded;
-                cont.innerHTML = `<img id="img-tag-${idx}" src="data:image/png;base64,${b64}" class="w-full h-full object-cover animate-fade-in">`;
-                controls.classList.remove('hidden');
-                controls.classList.add('grid');
-            } catch (err) {
-                cont.innerHTML = `<div class="p-6 text-center text-red-500 font-bold text-[10px]">Error Rendering</div>`;
-            }
-        }
-
-        function downloadImage(idx) {
-            const img = document.getElementById(`img-tag-${idx}`);
-            if(!img) return;
-            const link = document.createElement('a');
-            link.href = img.src;
-            link.download = `med_hero_${idx + 1}.png`;
-            link.click();
-            showToast("Saved Asset");
         }
 
         function copySingle(id) {
@@ -479,7 +469,7 @@
             dummy.select();
             document.execCommand('copy');
             document.body.removeChild(dummy);
-            showToast("Copied Track");
+            showToast("Prompt Track Copied");
         }
 
         function copyFull(id) {
@@ -491,7 +481,7 @@
             dummy.select();
             document.execCommand('copy');
             document.body.removeChild(dummy);
-            showToast("Full track Copied");
+            showToast("Full Protocol Copied");
         }
     </script>
 </body>
