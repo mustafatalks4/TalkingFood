@@ -192,7 +192,7 @@
         <!-- Welcome / Idle State -->
         <div id="welcomeState" class="flex-1 flex flex-col items-center justify-center text-center p-12 opacity-30">
             <div class="w-20 h-20 md:w-24 md:h-24 mb-6 border-4 border-dashed border-red-500/20 rounded-full flex items-center justify-center">
-                <svg class="w-10 h-10 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.628.283a2 2 0 01-1.186.12l-2.433-.487a2 2 0 00-1.022.547l-2.14 2.14a2 2 0 01-1.414.586H2.36a2 2 0 01-1.414-3.414l2.14-2.14a2 2 0 00.547-1.022l.477-2.387a6 6 0 01.517-3.86l.283-.628a2 2 0 00.12-1.186L5.435 3.9a2 2 0 01.547-1.022l2.14-2.14a2 2 0 013.414 1.414l-2.14 2.14a2 2 0 00-.547 1.022l-.477 2.387a6 6 0 01-.517 3.86l-.283.628a2 2 0 00-.12-1.186L5.435 3.9a2 2 0 01.547-1.022l2.14-2.14a2 2 0 013.414 1.414l-2.14 2.14a2 2 0 00-.547 1.022l-.477 2.387a6 6 0 01-.517 3.86l-.283.628a2 2 0 00-.12-1.186L5.435 3.9a2 2 0 01.547-1.022l2.14-2.14a2 2 0 013.414 1.414l-2.14 2.14z"></path></svg>
+                <svg class="w-10 h-10 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.628.283a2 2 0 01-1.186.12l-2.433-.487a2 2 0 00-1.022.547l-2.14 2.14a2 2 0 01-1.414.586H2.36a2 2 0 01-1.414-3.414l2.14-2.14a2 2 0 00.547-1.022l.477-2.387a6 6 0 01.517-3.86l.283-.628a2 2 0 00.12-1.186L5.435 3.9a2 2 0 01.547-1.022l2.14-2.14a2 2 0 013.414 1.414l-2.14 2.14a2 2 0 00-.547 1.022l-.477 2.387a6 6 0 01-.517 3.86l-.283.628a2 2 0 00-.12-1.186L5.435 3.9a2 2 0 01.547-1.022l2.14-2.14a2 2 0 013.414 1.414l-2.14 2.14a2 2 0 00-.547 1.022l-.477 2.387a6 6 0 01-.517 3.86l-.283.628a2 2 0 00-.12-1.186L5.435 3.9a2 2 0 01.547-1.022l2.14-2.14a2 2 0 013.414 1.414l-2.14 2.14a2 2 0 00-.547 1.022l-.477 2.387a6 6 0 01-.517 3.86l-.283.628a2 2 0 00-.12-1.186L5.435 3.9a2 2 0 01.547-1.022l2.14-2.14a2 2 0 013.414 1.414l-2.14 2.14a2 2 0 00-.547 1.022l-.477 2.387a6 6 0 01-.517 3.86l-.283.628a2 2 0 00-.12-1.186L5.435 3.9a2 2 0 01.547-1.022l2.14-2.14a2 2 0 013.414 1.414l-2.14 2.14z"></path></svg>
             </div>
             <h2 class="text-xl md:text-2xl font-black text-white italic tracking-tighter uppercase leading-tight">Internal Protocol Ready</h2>
             <p class="text-sm text-gray-500 max-w-sm mt-2">Generate cinematic internal medical characters. Optimized for all devices.</p>
@@ -318,13 +318,13 @@
 
             const systemPrompt = `
                 ACT AS A PREMIUM MEDICAL 3D CGI SYSTEM. 
-                STRICT RULE: If a user provides a list of items below, you MUST use those EXACT items only. DO NOT change Apple to Blueberry or any other item.
+                STRICT RULE: If a user provides a list of items below, you MUST use those EXACT items only. DO NOT change names (e.g., Apple stays Apple).
                 
                 ITEMS TO PROCESS: ${currentMode === 'manual' ? manualData : 'Choose diverse items from category ' + cat}.
                 GENERATE: Exactly ${count} tracks.
                 
                 STYLE: PREMIUM PIXAR-STYLE 3D CGI.
-                CHARACTERS: Anthropomorphic heroes introduced as "Hello, I am [REAL NAME]".
+                CHARACTERS: Anthropomorphic heroes introduced as "My name is [REAL NAME]".
                 CLOTHING/OUTFIT: ${clothInput}.
                 ${chan ? `BRANDING: The text "${chan}" must be centered and embroidered precisely on the breast pocket of the white coat.` : `BRANDING: No logos or text allowed.`}
                 
@@ -334,7 +334,7 @@
                 STRICT VIDEO RULES (8.0s):
                 - 0.0s - 2.0s: Hero character floats near target area preparing treatment.
                 - 2.0s - 8.0s: Hero performs clear visible medical action.
-                - DIALOGUE (IN ${lang}): Introduction MUST be "Hello, I am [NAME]". DO NOT use "Doctor [NAME]" or "I am a doctor" in the spoken script. Format: "Hello, I am [NAME]. I [ACTION] the [PROBLEM] in your [ORGAN]."
+                - DIALOGUE (IN ${lang}): Introduction MUST strictly be "My name is [NAME]" (translated to the target language). DO NOT use "Hello, I am", "Doctor [NAME]", or "I am a doctor" in the spoken script. Format: "My name is [NAME]. I [ACTION] the [PROBLEM] in your [ORGAN]."
                 
                 RETURN JSON { items: [{ name, organ, problem, action, dialogue, imagePrompt, videoPrompt }] }
             `;
