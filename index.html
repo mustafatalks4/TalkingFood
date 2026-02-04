@@ -12,7 +12,7 @@
     
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Med-CGI Prompt Master Pro v2.9.3 (Stable)</title>
+    <title>Med-CGI Prompt Master Pro v2.9.5 (Stable)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
     <style>
@@ -80,167 +80,179 @@
         .min-w-0-fix { min-width: 0; }
     </style>
 </head>
-<body class="p-0 flex flex-col lg:flex-row min-h-screen">
+<body class="p-0 flex flex-col min-h-screen">
 
-    <!-- SIDEBAR: CONFIGURATION (LEFT) -->
-    <aside class="w-full lg:w-[420px] shrink-0 glass-card lg:m-4 flex flex-col border-r border-white/5 h-auto lg:h-[calc(100vh-2rem)] lg:sticky top-0 lg:top-4 z-40 overflow-hidden">
-        <div class="p-6 border-b border-white/10 flex justify-between items-center bg-black/20 shrink-0">
-            <h1 class="text-2xl font-black text-white flex items-center gap-2 tracking-tighter uppercase italic">
-                <span class="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center text-sm not-italic shadow-lg shadow-red-900/40">M</span>
-                Med-CGI <span class="text-red-500 font-light">PRO</span>
-            </h1>
-            <div class="text-[10px] bg-red-500/10 text-red-500 px-2 py-1 rounded border border-red-500/20 font-bold uppercase tracking-widest">v2.9.3</div>
-        </div>
+    <!-- SECURITY NOTIFICATION BAR -->
+    <div class="w-full bg-red-950/30 border-b border-red-500/10 text-center py-2 px-4 z-50">
+        <a href="https://www.webcodeprotector.com/" target="_blank" class="text-[10px] md:text-xs font-bold text-red-400 hover:text-white uppercase tracking-widest transition flex items-center justify-center gap-2 group">
+            <svg class="w-3 h-3 group-hover:animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+            <span>Website Code Protected by Web Code Producer | Multi-level Encryption - Visit Here</span>
+        </a>
+    </div>
 
-        <div class="p-6 flex-1 overflow-y-auto custom-scrollbar space-y-6">
-            <!-- API Section -->
-            <div class="space-y-2">
-                <div class="flex justify-between items-center">
-                    <label class="text-[10px] uppercase tracking-widest text-gray-500 font-bold">Google Studio API Key</label>
-                    <button onclick="clearKey()" class="text-[10px] text-red-500 hover:text-red-400 font-bold transition uppercase">Clear Buffer</button>
-                </div>
-                <input type="password" id="apiKey" placeholder="Paste API Key here..." 
-                       class="premium-input w-full rounded-xl px-4 py-3 text-sm" />
-            </div>
-
-            <!-- Core Config -->
-            <div class="space-y-4">
-                <label class="text-[10px] uppercase tracking-widest text-gray-500 font-bold">Hero Configuration</label>
-                
-                <div class="space-y-4">
-                    <div>
-                        <span class="text-xs text-gray-400 mb-1 block italic">Main Category</span>
-                        <select id="category" class="premium-input w-full rounded-xl px-4 py-3 text-sm appearance-none cursor-pointer">
-                            <option value="Medical Foods & Fruits">Medical Foods & Fruits</option>
-                            <option value="Organic Vegetables">Organic Vegetables</option>
-                            <option value="Nutrient Seeds & Nuts">Nutrient Seeds & Nuts</option>
-                            <option value="Essential Oils & Fluids">Essential Oils & Fluids</option>
-                            <option value="Health Drinks">Health Drinks</option>
-                            <option value="Electronic Devices">Electronic Devices</option>
-                            <option value="Smart Furniture">Smart Furniture</option>
-                            <option value="Daily Accessories">Daily Accessories</option>
-                            <option value="Books & Stationery">Books & Stationery</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <span class="text-xs text-gray-400 mb-1 block italic">Pocket Logo Text (Optional)</span>
-                        <input type="text" id="channelName" placeholder="Text for embroidery" 
-                               class="premium-input w-full rounded-xl px-4 py-3 text-sm" />
-                    </div>
-                </div>
-
-                <div>
-                    <span class="text-xs text-gray-400 mb-2 block italic">Outfit Style Suggestions:</span>
-                    <div class="flex flex-wrap gap-2 mb-4">
-                        <span class="suggestion-tag" onclick="setOutfit('Professional White Lab Coat with stethoscope and large expressive eyes')">Lab Coat</span>
-                        <span class="suggestion-tag" onclick="setOutfit('High-tech glowing Nano-Armor and tactical doctor glasses')">Nano-Armor</span>
-                        <span class="suggestion-tag" onclick="setOutfit('Surgical Scrubs with matching medical badge')">Scrubs</span>
-                        <span class="suggestion-tag" onclick="setOutfit('Natural Organic skin texture (No Clothes)')">No Clothes</span>
-                        <span class="suggestion-tag" onclick="setOutfit('Sleek futuristic 3D CGI medical uniform')">Future Tech</span>
-                    </div>
-                    <textarea id="clothing" rows="2" placeholder="Describe the character look..." 
-                              class="premium-input w-full rounded-xl px-4 py-3 text-sm resize-none"></textarea>
-                </div>
-
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <span class="text-xs text-gray-400 mb-1 block italic">Quantity</span>
-                        <input type="number" id="quantity" value="5" min="1" max="10" 
-                               class="premium-input w-full rounded-xl px-4 py-3 text-sm" />
-                    </div>
-                    <div>
-                        <span class="text-xs text-gray-400 mb-1 block italic">Language</span>
-                        <select id="language" class="premium-input w-full rounded-xl px-4 py-3 text-sm appearance-none cursor-pointer">
-                            <option value="English">English</option>
-                            <option value="Urdu">Urdu (اردو)</option>
-                            <option value="Hindi">Hindi (हिन्दी)</option>
-                            <option value="Spanish">Spanish</option>
-                            <option value="Arabic">Arabic</option>
-                            <option value="French">French</option>
-                            <option value="German">German</option>
-                            <option value="Bengali">Bengali</option>
-                            <option value="Portuguese">Portuguese</option>
-                            <option value="Russian">Russian</option>
-                            <option value="Japanese">Japanese</option>
-                            <option value="Chinese">Chinese</option>
-                            <option value="Punjabi">Punjabi</option>
-                            <option value="Vietnamese">Vietnamese</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Selection Engine -->
-            <div class="space-y-4">
-                <label class="text-[10px] uppercase tracking-widest text-gray-500 font-bold">Selection Engine</label>
-                <div class="flex bg-black/40 p-1 rounded-xl">
-                    <button onclick="setMode('ai')" id="btn-ai" class="flex-1 py-2 text-xs rounded-lg transition bg-red-600 text-white font-bold">AI Random</button>
-                    <button onclick="setMode('manual')" id="btn-manual" class="flex-1 py-2 text-xs rounded-lg transition text-gray-400">Manual Entry</button>
-                </div>
-                <div id="manual-box" class="hidden mt-2">
-                    <textarea id="manualItems" rows="2" placeholder="e.g. Apple, Yogurt, Olive Oil..." 
-                              class="premium-input w-full rounded-xl px-4 py-3 text-sm resize-none"></textarea>
-                </div>
-            </div>
-        </div>
-
-        <div class="p-6 bg-black/40 border-t border-white/5 shrink-0">
-            <button onclick="initiateGeneration()" id="mainActionBtn" 
-                    class="w-full bg-red-600 hover:bg-red-500 text-white font-black py-4 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 group tracking-widest">
-                <span>GENERATE TRACKS</span>
-                <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
-            </button>
-        </div>
-    </aside>
-
-    <!-- MAIN PANEL: CONTENT (RIGHT) -->
-    <main class="flex-1 flex flex-col p-4 lg:p-8 min-w-0 overflow-y-auto custom-scrollbar">
+    <!-- MAIN CONTENT WRAPPER -->
+    <div class="flex-1 flex flex-col lg:flex-row">
         
-        <!-- Welcome State -->
-        <div id="welcomeState" class="flex-1 flex flex-col items-center justify-center text-center p-12 opacity-30">
-            <div class="w-20 h-20 md:w-24 md:h-24 mb-6 border-4 border-dashed border-red-500/20 rounded-full flex items-center justify-center">
-                <svg class="w-10 h-10 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.628.283a2 2 0 01-1.186.12l-2.433-.487a2 2 0 00-1.022.547l-2.14 2.14a2 2 0 01-1.414.586H2.36a2 2 0 01-1.414-3.414l2.14-2.14a2 2 0 00.547-1.022l.477-2.387a6 6 0 01.517-3.86l.283-.628a2 2 0 00.12-1.186L5.435 3.9a2 2 0 01.547-1.022l2.14-2.14a2 2 0 013.414 1.414l-2.14 2.14a2 2 0 00-.547 1.022l-.477 2.387a6 6 0 01-.517 3.86l-.283.628a2 2 0 00-.12-1.186L5.435 3.9a2 2 0 01.547-1.022l2.14-2.14a2 2 0 013.414 1.414l-2.14 2.14a2 2 0 00-.547 1.022l-.477 2.387a6 6 0 01-.517 3.86l-.283.628a2 2 0 00-.12-1.186L5.435 3.9a2 2 0 01.547-1.022l2.14-2.14a2 2 0 01-3.414-1.414l2.14-2.14z"></path></svg>
+        <!-- SIDEBAR: CONFIGURATION (LEFT) -->
+        <aside class="w-full lg:w-[420px] shrink-0 glass-card lg:m-4 flex flex-col border-r border-white/5 h-auto lg:h-[calc(100vh-4rem)] lg:sticky top-0 lg:top-4 z-40 overflow-hidden">
+            <div class="p-6 border-b border-white/10 flex justify-between items-center bg-black/20 shrink-0">
+                <h1 class="text-2xl font-black text-white flex items-center gap-2 tracking-tighter uppercase italic">
+                    <span class="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center text-sm not-italic shadow-lg shadow-red-900/40">M</span>
+                    Med-CGI <span class="text-red-500 font-light">PRO</span>
+                </h1>
+                <div class="text-[10px] bg-red-500/10 text-red-500 px-2 py-1 rounded border border-red-500/20 font-bold uppercase tracking-widest">v2.9.5</div>
             </div>
-            <h2 class="text-xl md:text-2xl font-black text-white italic tracking-tighter uppercase leading-tight">Internal Protocol Ready</h2>
-            <p class="text-sm text-gray-500 max-w-sm mt-2">Generate cinematic internal medical characters. Optimized for all devices.</p>
-        </div>
 
-        <!-- Confirmation Modal -->
-        <div id="confirmModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-6 bg-black/90 backdrop-blur-md">
-            <div class="glass-card max-w-md w-full p-6 md:p-8 space-y-6 animate-fade-in border-red-500/30">
-                <h3 class="text-xl font-black text-white italic uppercase flex items-center gap-2">
-                    <svg class="w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    Confirm Generation
-                </h3>
-                <div id="summaryContent" class="space-y-3 text-xs text-gray-300 bg-white/5 p-4 md:p-5 rounded-2xl border border-white/5">
-                    <!-- Summary injected here -->
+            <div class="p-6 flex-1 overflow-y-auto custom-scrollbar space-y-6">
+                <!-- API Section -->
+                <div class="space-y-2">
+                    <div class="flex justify-between items-center">
+                        <label class="text-[10px] uppercase tracking-widest text-gray-500 font-bold">Google Studio API Key</label>
+                        <button onclick="clearKey()" class="text-[10px] text-red-500 hover:text-red-400 font-bold transition uppercase">Clear Buffer</button>
+                    </div>
+                    <input type="password" id="apiKey" placeholder="Paste API Key here..." 
+                           class="premium-input w-full rounded-xl px-4 py-3 text-sm" />
                 </div>
-                <div class="flex flex-col sm:flex-row gap-3 pt-4">
-                    <button onclick="hideConfirm()" class="flex-1 py-3 px-4 rounded-xl bg-white/5 hover:bg-white/10 transition text-xs font-bold uppercase tracking-widest">Cancel</button>
-                    <button onclick="processFinalGeneration()" class="flex-1 py-3 px-4 rounded-xl bg-red-600 hover:bg-red-500 font-black text-xs text-white uppercase tracking-widest shadow-lg shadow-red-900/40">Accept & Build</button>
-                </div>
-            </div>
-        </div>
 
-        <!-- Results View -->
-        <div id="resultsView" class="hidden space-y-12 pb-24">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border-b border-white/10 pb-8">
-                <div class="min-w-0">
-                    <h2 class="text-3xl md:text-4xl font-black text-white italic uppercase tracking-tighter leading-none truncate">Medical Heroes</h2>
-                    <p class="text-[10px] text-red-500 font-mono tracking-widest mt-2 uppercase opacity-80">Track Engine v2.9.3 stable</p>
+                <!-- Core Config -->
+                <div class="space-y-4">
+                    <label class="text-[10px] uppercase tracking-widest text-gray-500 font-bold">Hero Configuration</label>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <span class="text-xs text-gray-400 mb-1 block italic">Main Category</span>
+                            <select id="category" class="premium-input w-full rounded-xl px-4 py-3 text-sm appearance-none cursor-pointer">
+                                <option value="Medical Foods & Fruits">Medical Foods & Fruits</option>
+                                <option value="Organic Vegetables">Organic Vegetables</option>
+                                <option value="Nutrient Seeds & Nuts">Nutrient Seeds & Nuts</option>
+                                <option value="Essential Oils & Fluids">Essential Oils & Fluids</option>
+                                <option value="Health Drinks">Health Drinks</option>
+                                <option value="Electronic Devices">Electronic Devices</option>
+                                <option value="Smart Furniture">Smart Furniture</option>
+                                <option value="Daily Accessories">Daily Accessories</option>
+                                <option value="Books & Stationery">Books & Stationery</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <span class="text-xs text-gray-400 mb-1 block italic">Pocket Logo Text (Optional)</span>
+                            <input type="text" id="channelName" placeholder="Text for embroidery" 
+                                   class="premium-input w-full rounded-xl px-4 py-3 text-sm" />
+                        </div>
+                    </div>
+
+                    <div>
+                        <span class="text-xs text-gray-400 mb-2 block italic">Outfit Style Suggestions:</span>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="suggestion-tag" onclick="setOutfit('Professional White Lab Coat with stethoscope and large expressive eyes')">Lab Coat</span>
+                            <span class="suggestion-tag" onclick="setOutfit('High-tech glowing Nano-Armor and tactical doctor glasses')">Nano-Armor</span>
+                            <span class="suggestion-tag" onclick="setOutfit('Surgical Scrubs with matching medical badge')">Scrubs</span>
+                            <span class="suggestion-tag" onclick="setOutfit('Natural Organic skin texture (No Clothes)')">No Clothes</span>
+                            <span class="suggestion-tag" onclick="setOutfit('Sleek futuristic 3D CGI medical uniform')">Future Tech</span>
+                        </div>
+                        <textarea id="clothing" rows="2" placeholder="Describe the character look..." 
+                                  class="premium-input w-full rounded-xl px-4 py-3 text-sm resize-none"></textarea>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <span class="text-xs text-gray-400 mb-1 block italic">Quantity</span>
+                            <input type="number" id="quantity" value="5" min="1" max="10" 
+                                   class="premium-input w-full rounded-xl px-4 py-3 text-sm" />
+                        </div>
+                        <div>
+                            <span class="text-xs text-gray-400 mb-1 block italic">Language</span>
+                            <select id="language" class="premium-input w-full rounded-xl px-4 py-3 text-sm appearance-none cursor-pointer">
+                                <option value="English">English</option>
+                                <option value="Urdu">Urdu (اردو)</option>
+                                <option value="Hindi">Hindi (हिन्दी)</option>
+                                <option value="Spanish">Spanish</option>
+                                <option value="Arabic">Arabic</option>
+                                <option value="French">French</option>
+                                <option value="German">German</option>
+                                <option value="Bengali">Bengali</option>
+                                <option value="Portuguese">Portuguese</option>
+                                <option value="Russian">Russian</option>
+                                <option value="Japanese">Japanese</option>
+                                <option value="Chinese">Chinese</option>
+                                <option value="Punjabi">Punjabi</option>
+                                <option value="Vietnamese">Vietnamese</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
-                <div class="flex flex-wrap gap-3 shrink-0">
-                    <a href="https://whatsapp.com/channel/0029VbC81adK5cDJZippSk10" target="_blank" class="px-4 py-2.5 bg-green-600/20 text-green-400 text-[10px] font-black rounded-full border border-green-500/20 hover:bg-green-600/30 transition tracking-widest">WHATSAPP</a>
-                    <a href="https://facebook.com/themustafatalks" target="_blank" class="px-4 py-2.5 bg-blue-600/20 text-blue-400 text-[10px] font-black rounded-full border border-blue-500/20 hover:bg-blue-600/30 transition tracking-widest">FACEBOOK</a>
+
+                <!-- Selection Engine -->
+                <div class="space-y-4">
+                    <label class="text-[10px] uppercase tracking-widest text-gray-500 font-bold">Selection Engine</label>
+                    <div class="flex bg-black/40 p-1 rounded-xl">
+                        <button onclick="setMode('ai')" id="btn-ai" class="flex-1 py-2 text-xs rounded-lg transition bg-red-600 text-white font-bold">AI Random</button>
+                        <button onclick="setMode('manual')" id="btn-manual" class="flex-1 py-2 text-xs rounded-lg transition text-gray-400">Manual Entry</button>
+                    </div>
+                    <div id="manual-box" class="hidden mt-2">
+                        <textarea id="manualItems" rows="2" placeholder="e.g. Apple, Yogurt, Olive Oil..." 
+                                  class="premium-input w-full rounded-xl px-4 py-3 text-sm resize-none"></textarea>
+                    </div>
                 </div>
             </div>
+
+            <div class="p-6 bg-black/40 border-t border-white/5 shrink-0">
+                <button onclick="initiateGeneration()" id="mainActionBtn" 
+                        class="w-full bg-red-600 hover:bg-red-500 text-white font-black py-4 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 group tracking-widest">
+                    <span>GENERATE TRACKS</span>
+                    <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
+                </button>
+            </div>
+        </aside>
+
+        <!-- MAIN PANEL: CONTENT (RIGHT) -->
+        <main class="flex-1 flex flex-col p-4 lg:p-8 min-w-0 overflow-y-auto custom-scrollbar">
             
-            <div id="cardsGrid" class="space-y-16">
-                <!-- Cards injected here -->
+            <!-- Welcome State -->
+            <div id="welcomeState" class="flex-1 flex flex-col items-center justify-center text-center p-12 opacity-30">
+                <div class="w-20 h-20 md:w-24 md:h-24 mb-6 border-4 border-dashed border-red-500/20 rounded-full flex items-center justify-center">
+                    <svg class="w-10 h-10 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.628.283a2 2 0 01-1.186.12l-2.433-.487a2 2 0 00-1.022.547l-2.14 2.14a2 2 0 01-1.414.586H2.36a2 2 0 01-1.414-3.414l2.14-2.14a2 2 0 00.547-1.022l.477-2.387a6 6 0 01.517-3.86l.283-.628a2 2 0 00.12-1.186L5.435 3.9a2 2 0 01.547-1.022l2.14-2.14a2 2 0 013.414 1.414l-2.14 2.14a2 2 0 01-3.414-1.414l2.14-2.14z"></path></svg>
+                </div>
+                <h2 class="text-xl md:text-2xl font-black text-white italic tracking-tighter uppercase leading-tight">Internal Protocol Ready</h2>
+                <p class="text-sm text-gray-500 max-w-sm mt-2">Generate cinematic internal medical characters. Optimized for all devices.</p>
             </div>
-        </div>
-    </main>
+
+            <!-- Confirmation Modal -->
+            <div id="confirmModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-6 bg-black/90 backdrop-blur-md">
+                <div class="glass-card max-w-md w-full p-6 md:p-8 space-y-6 animate-fade-in border-red-500/30">
+                    <h3 class="text-xl font-black text-white italic uppercase flex items-center gap-2">
+                        <svg class="w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        Confirm Generation
+                    </h3>
+                    <div id="summaryContent" class="space-y-3 text-xs text-gray-300 bg-white/5 p-4 md:p-5 rounded-2xl border border-white/5">
+                        <!-- Summary injected here -->
+                    </div>
+                    <div class="flex flex-col sm:flex-row gap-3 pt-4">
+                        <button onclick="hideConfirm()" class="flex-1 py-3 px-4 rounded-xl bg-white/5 hover:bg-white/10 transition text-xs font-bold uppercase tracking-widest">Cancel</button>
+                        <button onclick="processFinalGeneration()" class="flex-1 py-3 px-4 rounded-xl bg-red-600 hover:bg-red-500 font-black text-xs text-white uppercase tracking-widest shadow-lg shadow-red-900/40">Accept & Build</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results View -->
+            <div id="resultsView" class="hidden space-y-12 pb-24">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border-b border-white/10 pb-8">
+                    <div class="min-w-0">
+                        <h2 class="text-3xl md:text-4xl font-black text-white italic uppercase tracking-tighter leading-none truncate">Medical Heroes</h2>
+                        <p class="text-[10px] text-red-500 font-mono tracking-widest mt-2 uppercase opacity-80">Track Engine v2.9.5 stable</p>
+                    </div>
+                    <div class="flex flex-wrap gap-3 shrink-0">
+                        <a href="https://whatsapp.com/channel/0029VbC81adK5cDJZippSk10" target="_blank" class="px-4 py-2.5 bg-green-600/20 text-green-400 text-[10px] font-black rounded-full border border-green-500/20 hover:bg-green-600/30 transition tracking-widest">WHATSAPP</a>
+                        <a href="https://facebook.com/themustafatalks" target="_blank" class="px-4 py-2.5 bg-blue-600/20 text-blue-400 text-[10px] font-black rounded-full border border-blue-500/20 hover:bg-blue-600/30 transition tracking-widest">FACEBOOK</a>
+                    </div>
+                </div>
+                
+                <div id="cardsGrid" class="space-y-16">
+                    <!-- Cards injected here -->
+                </div>
+            </div>
+        </main>
+    </div>
 
     <!-- Toast Notifications -->
     <div id="toast" class="fixed bottom-8 right-1/2 translate-x-1/2 md:translate-x-0 md:right-8 bg-red-600 text-white px-8 py-4 rounded-2xl shadow-2xl transform translate-y-48 transition-transform duration-300 z-[200] font-black italic uppercase text-xs tracking-widest text-center">
@@ -321,6 +333,9 @@
             const count = document.getElementById('quantity').value;
             const manualData = document.getElementById('manualItems').value.trim();
 
+            const healthCats = ["Medical Foods & Fruits", "Organic Vegetables", "Nutrient Seeds & Nuts", "Essential Oils & Fluids", "Health Drinks"];
+            const isHealthCat = healthCats.includes(cat);
+
             const systemPrompt = `
                 You are a PREMIUM MEDICAL 3D IMAGE + VIDEO PROMPT GENERATION SYSTEM.
                 
@@ -376,11 +391,25 @@
                         generationConfig: { responseMimeType: "application/json" }
                     })
                 });
+
+                if (!response.ok) {
+                    throw new Error(`API Error: ${response.status}`);
+                }
+
                 const res = await response.json();
-                const data = JSON.parse(res.candidates[0].content.parts[0].text);
+                
+                if (!res.candidates || !res.candidates[0] || !res.candidates[0].content) {
+                    throw new Error("No content generated");
+                }
+
+                let rawText = res.candidates[0].content.parts[0].text;
+                // Cleanup JSON if markdown blocks are present
+                rawText = rawText.replace(/```json/g, '').replace(/```/g, '').trim();
+
+                const data = JSON.parse(rawText);
                 renderItems(data.items);
             } catch (err) {
-                showToast("Generation Failure");
+                showToast("Generation Failed: " + err.message);
                 document.getElementById('welcomeState').classList.remove('hidden');
                 document.getElementById('resultsView').classList.add('hidden');
             }
@@ -449,7 +478,7 @@
                         </div>
                         
                         <div class="pt-8 border-t border-white/5 flex flex-col sm:flex-row gap-6 items-center justify-between">
-                            <span class="text-[10px] text-gray-700 font-black uppercase tracking-widest italic tracking-widest">Protocol Protocol: v2.9.3 stable</span>
+                            <span class="text-[10px] text-gray-700 font-black uppercase tracking-widest italic tracking-widest">Protocol Protocol: v2.9.5 stable</span>
                             <div class="flex gap-4">
                                 <a href="https://whatsapp.com/channel/0029VbC81adK5cDJZippSk10" target="_blank" class="text-[11px] text-green-500 hover:text-green-400 font-black transition italic uppercase tracking-widest">Join WhatsApp</a>
                                 <a href="https://facebook.com/themustafatalks" target="_blank" class="text-[11px] text-blue-500 hover:text-blue-400 font-black transition italic uppercase tracking-widest">Follow FB</a>
